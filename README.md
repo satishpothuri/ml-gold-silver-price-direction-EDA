@@ -2,7 +2,7 @@
 An EDA and Baseline Modeling project using CRISP-DM to predict the daily directional movement of Gold and Silver prices using macro-economic indicators.
 
 **Full analysis and code:**  
-👉 [Jupyter Notebook – Gold and Silver Price Direction Prediction](./gold-silver-price-prediction-EDA-Final.ipynb)[Processed CSV Files](./data/)
+👉 [Jupyter Notebook – Gold and Silver Price Direction Prediction](./gold-silver-price-prediction-EDA-Final.ipynb)
 
 ## Business Understanding
 ### Objective
