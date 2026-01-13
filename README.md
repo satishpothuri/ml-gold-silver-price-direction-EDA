@@ -102,8 +102,49 @@ Several visualization were created to understand the data, its anomolies. Below 
     - Momentum Group: 5d Momentum, Distance from 20d SMA (Lagged 1d).
     - Volatility Group: VIX, 10d Rolling StDev (Lagged 1d).
   - To align with the goal of predictive forecasting, the target variable y at time t is mapped to features X at time t−1. This shift ensures that the model is evaluated on its ability to forecast future movement using only currently available data.
+
+ ### Train and Test Data Split
+ - The dataset is split into train and test sets with 80:20 ratio respectively after sorting the dataset in chronological order based on the date index.
+ - Training data ranges from year 2006-2021.
+ - Testing data ranges from year 2022-2026.
+ - Since the features have values with different scales, all the data has been scaled.
  
 ## Modeling
+
+Two baseline models have been created
+- Linear Regression for predicting the gold/silver prices using lag features
+- Logistic Regression for prediction the gold/silver price direction using lag features
+
+### **Baseline Performance Summary**
+
+#### **1. Regression Metrics (Price Prediction)**
+The regression baseline utilized **Linear Regression** to predict daily percentage returns. These metrics demonstrate the difficulty of price-point estimation in high-noise financial data with non-linear relationships.
+
+| Metric | Gold Baseline (GC=F) | Silver Baseline (SI=F) |
+| :--- | :---: | :---: |
+| **Mean Absolute Error (MAE)** | 0.007652 | 0.014854 |
+| **Root Mean Squared Error (RMSE)**| 0.010340 | 0.020673 |
+| **R-squared ($R^2$) Score** | -0.006527 | -0.008589 |
+
+#### **2. Classification Metrics (Directional Prediction)**
+The classification baseline utilized **Logistic Regression** to predict market direction (1 = Up, 0 = Down).
+
+| Metric | Gold Directional | Silver Directional |
+| :--- | :---: | :---: |
+| **Overall Accuracy** | 47.82% | 47.52% |
+| **Precision (Class 1 - Up)** | 57.00% | 53.00% |
+| **Recall (Class 1 - Up)** | 22.00% | 08.00% |
+| **Recall (Class 0 - Down)** | 80.00% | 92.00% |
+| **F1-Score (Macro Avg)** | 0.45 | 0.38 |
+
+### Linear Regression (Baseline)
+- The baseline Linear Regression model returned an R^2 score of -0.0065, indicating that the model failed to explain any of the variance in Gold returns using simple linear lags. This result confirms that macro-economic drivers do not impact Gold prices in a strictly linear fashion. While this confirms the difficulty of price-point forecasting, it serves as a critical justification for the next phase of the project: transitioning to Logistic Regression for directional classification and exploring Non-linear Ensemble methods to extract price direction signals from the data.
+- Due to presence of strong correlation between real rates and 10-year yield, real rate feature will be removed thereby mitigating multi-collinearity.
+
+### Logistic Regression (Baseline)
+- The baseline directional model achieved an accuracy of 47.82%, slightly below the random-chance threshold. Detailed analysis of the classification report reveals a strong bias toward predicting downward movement (80% recall for Class 0) while failing to capture the upward movements.
+- These results reinforce the conclusion that simple linear classification is insufficient for this dataset, justifying the move to Rolling/Trend features and Non-linear ensemble models in the next phase to improve the balance between precision and recall.
+
 
 
 
