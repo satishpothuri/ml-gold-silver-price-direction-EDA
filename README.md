@@ -44,18 +44,20 @@ Following data will be used for gold/silver price direction prediction which is 
 * **Consumer Price Index (CPI)**: Monthly index level transformed into YoY and MoM growth rates. Used to capture the inflationary regime, a fundamental driver of "Safe Haven" asset demand.
 
 ### Data Acquisition & Merging
-To ensure high quality and time-series data, it has been downloaded from Yahoo Finance and FRED (Federal Reserve Economic Data) data sources based on following tickers using python modules - yfinance and pandas_datareader.
+- To ensure high quality and time-series data, it has been downloaded from Yahoo Finance and FRED (Federal Reserve Economic Data) data sources based on following tickers using python modules - yfinance and pandas_datareader.
 
-* **GC=F** : Gold Futures (Yahoo Finance)
-* **SI=F** : Silver Futures (Yahoo Finance)
-* **CL=F**: WTI Oil Futures (Yahoo Finance)
-* **NG=F**: Natural Gas Futures (Yahoo Finance)
-* **^GSPC** : S&P 500 Index (Yahoo Finance)
-* **^TNX** : CBOE 10-Year Treasury Note Yield Index (Yahoo Finance)
-* **^VIX** : CBOE Volatility Index (Yahoo Finance)
-* **DFII10** : Real Interest Rates - Inflation-Indexed (FRED)
-* **DTWEXBGS** : USD Index (FRED)
-* **CPIAUCSL** : Consumer Price Index Data (FRED)
+| Concept | Ticker | Source | Frequency |
+| :--- | :--- | :--- | :--- |
+| **Gold Futures** | `GC=F` | Yahoo Finance | Daily |
+| **Silver Futures** | `SI=F` | Yahoo Finance | Daily |
+| **WTI Oil Futures** | `CL=F` | Yahoo Finance | Daily |
+| **Natural Gas Futures**| `NG=F` | Yahoo Finance | Daily |
+| **S&P 500 Index** | `^GSPC`| Yahoo Finance | Daily |
+| **10-Year Treasury Yield** | `^TNX` | Yahoo Finance | Daily |
+| **Market Volatility Index** | `^VIX` | Yahoo Finance | Daily |
+| **Real Interest Rates**| `DFII10`| FRED | Daily |
+| **USD Index** | `DTWEXBGS`| FRED | Daily |
+| **Consumer Price Index**| `CPIAUCSL`| FRED | Monthly |
 
 - The raw data acquired is from year 2000 for all of the metrics except USD Index which is starting from year 2006. All except, CPI, is on daily basis.
 - CPI data is released on monthly basis. So it creates mismatch with other data on daily basis. So the CPI index will be expanded from monthly into daily basis by forward filling. However, calculating daily percentage changes on upsampled data would result in signal sparsity, where the feature contains zero values for approximately 20 out of 21 trading days per month. So the CPI month-on-month (MoM) and year-on-year (YoY) values are computed while data is still in original format before the CPI index will be expanded using forward filling method.
@@ -96,7 +98,10 @@ Several visualization were created to understand the data, its anomolies. Below 
   - Add gold/silver ratio
   - 1-day lag is applied to all independent variables to ensure the model uses only historically available information, thereby preventing data leakage.
   - In addition to the primary feature lags, a suite of technical features such as 5-day momentum, distance from the 20-day SMA, and 10-day rolling volatility were engineered. While the baseline model will be trained with lag features, these new features are prepared for the Modeling and Evaluation phase, where they will be used to test if capturing market trend and volatility improves predictive accuracy over the baseline.
-  - Add target variables for gold and silver which basically contains next day's price as the model need to predict next day's price based on the current day's values.
+    - Macro Group: USD Index, 10Y Yield, S&P 500 (Lagged 1d).
+    - Momentum Group: 5d Momentum, Distance from 20d SMA (Lagged 1d).
+    - Volatility Group: VIX, 10d Rolling StDev (Lagged 1d).
+  - To align with the goal of predictive forecasting, the target variable y at time t is mapped to features X at time t−1. This shift ensures that the model is evaluated on its ability to forecast future movement using only currently available data.
  
 ## Modeling
 
