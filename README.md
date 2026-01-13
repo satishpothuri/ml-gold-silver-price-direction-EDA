@@ -98,9 +98,9 @@ Several visualization were created to understand the data, its anomolies. Below 
   - Add gold/silver ratio
   - 1-day lag is applied to all independent variables to ensure the model uses only historically available information, thereby preventing data leakage.
   - In addition to the primary feature lags, a suite of technical features such as 5-day momentum, distance from the 20-day SMA, and 10-day rolling volatility were engineered. While the baseline model will be trained with lag features, these new features are prepared for the Modeling and Evaluation phase, where they will be used to test if capturing market trend and volatility improves predictive accuracy over the baseline.
-    - Macro Group: USD Index, 10Y Yield, S&P 500 (Lagged 1d).
-    - Momentum Group: 5d Momentum, Distance from 20d SMA (Lagged 1d).
-    - Volatility Group: VIX, 10d Rolling StDev (Lagged 1d).
+    - **Macro Group**: USD Index, 10Y Yield, S&P 500 (1d lag).
+    - **Momentum Group**: 5d Momentum, Distance from 20d SMA (1d lag).
+    - **Volatility Group**: VIX, 10d Rolling Standard Deviation (1d lag).
   - To align with the goal of predictive forecasting, the target variable y at time t is mapped to features X at time t−1. This shift ensures that the model is evaluated on its ability to forecast future movement using only currently available data.
 
  ### Train and Test Data Split
@@ -126,6 +126,10 @@ The regression baseline utilized **Linear Regression** to predict daily percenta
 | **Root Mean Squared Error (RMSE)**| 0.010340 | 0.020673 |
 | **R-squared ($R^2$) Score** | -0.006527 | -0.008589 |
 
+- The baseline Linear Regression model returned an R^2 score of -0.0065 for Gold and -0.008589 for Silver, indicating that the model failed to explain any of the variance in Gold and Silver returns using simple linear lags. This result confirms that macro-economic drivers do not impact these prices in a strictly linear fashion. While this confirms the difficulty of price-point forecasting, it serves as a critical justification for the next phase of the project: transitioning to Logistic Regression for directional classification and exploring Non-linear Ensemble methods to extract price direction signals from the data.
+- Silver's RMSE is roughly double that of Gold's. This mathematically supports the EDA observation that Silver is a more volatile asset.
+
+
 #### **2. Classification Metrics (Directional Prediction)**
 The classification baseline utilized **Logistic Regression** to predict market direction (1 = Up, 0 = Down).
 
@@ -137,13 +141,15 @@ The classification baseline utilized **Logistic Regression** to predict market d
 | **Recall (Class 0 - Down)** | 80.00% | 92.00% |
 | **F1-Score (Macro Avg)** | 0.45 | 0.38 |
 
-### Linear Regression (Baseline)
-- The baseline Linear Regression model returned an R^2 score of -0.0065, indicating that the model failed to explain any of the variance in Gold returns using simple linear lags. This result confirms that macro-economic drivers do not impact Gold prices in a strictly linear fashion. While this confirms the difficulty of price-point forecasting, it serves as a critical justification for the next phase of the project: transitioning to Logistic Regression for directional classification and exploring Non-linear Ensemble methods to extract price direction signals from the data.
-- Due to presence of strong correlation between real rates and 10-year yield, real rate feature will be removed thereby mitigating multi-collinearity.
-
-### Logistic Regression (Baseline)
-- The baseline directional model achieved an accuracy of 47.82%, slightly below the random-chance threshold. Detailed analysis of the classification report reveals a strong bias toward predicting downward movement (80% recall for Class 0) while failing to capture the upward movements.
+- The baseline directional model achieved an accuracy of 47.82% for Gold and 47.52% for Silver, slightly below the random-chance threshold. Detailed analysis of the classification report reveals a strong bias toward predicting downward movement (80% recall for Class 0) while failing to capture the upward movements.
 - These results reinforce the conclusion that simple linear classification is insufficient for this dataset, justifying the move to Rolling/Trend features and Non-linear ensemble models in the next phase to improve the balance between precision and recall.
+
+### Next Actions
+- **Incorporate Trend/Rolling Features**: Incorporate the trend/rolling features (5-day Momentum, 20-day SMA distance, and 10-day volatility) into the training set to provide the models with more context and momentum signals that raw macro lags currently lack.
+- **Regularized Regression for Price Prediction**: Explore Ridge and Lasso Regression to address potential multi-collinearity, aiming to move the R2 score into positive territory by penalizing less impactful macro variables.
+- **Non-Linear Classification for Directional Accuracy**: Transition from linear baselines to Random Forest and XGBoost Classifiers to capture the complex, non-linear relationships between macro-economic changes and gold/silver price action.
+- **Hyperparameter Optimization**: Implement Hyperparameter Tuning (e.g., GridSearchCV) for the ensemble models to optimize the balance between Precision and Recall, specifically targeting an improvement in accuracy rate.
+
 
 
 
