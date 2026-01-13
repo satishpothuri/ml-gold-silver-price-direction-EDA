@@ -1,6 +1,9 @@
 # ml-gold-silver-price-direction-EDA
 An EDA and Baseline Modeling project using CRISP-DM to predict the daily directional movement of Gold and Silver prices using macro-economic indicators.
 
+**Full analysis and code:**  
+👉 [Jupyter Notebook – Gold and Silver Price Direction Prediction](./gold-silver-price-prediction-EDA-Final.ipynb)[Processed CSV Files](./data/)
+
 ## Business Understanding
 ### Objective
 The primary goal of this task is to determine if macroeconomic indicators (such as USD Index, S&P 500, Interest Rates, Inflation, Oil & Natural Gas Price, US Equity Market Volatility) and historical price movements of precious metals can be leveraged to predict the daily price direction of Gold and Silver.
