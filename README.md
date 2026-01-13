@@ -95,7 +95,7 @@ Several visualization were created to understand the data, its anomolies. Below 
 - Extreme Outliers: Clip the extreme outlier (negative) price for WTI oil to $0.01
 - Feature Transformations: Add new features for keeping percent or absolute daily changes to prevent spurious correlation
 - Feature Engineering
-  - Add gold/silver ratio
+  - Added gold/silver ratio as a feature
   - 1-day lag is applied to all independent variables to ensure the model uses only historically available information, thereby preventing data leakage.
   - In addition to the primary feature lags, a suite of technical features such as 5-day momentum, distance from the 20-day SMA, and 10-day rolling volatility were engineered. While the baseline model will be trained with lag features, these new features are prepared for the Modeling and Evaluation phase, where they will be used to test if capturing market trend and volatility improves predictive accuracy over the baseline.
     - **Macro Group**: USD Index, 10Y Yield, S&P 500 (1d lag).
