@@ -17,7 +17,7 @@ Is silver more accurately predictable than gold ?
 
 ### Data Description
 
-Following data will be used for gold/silver price direction prediction which is comprised of historical daily observations spanning from 2000 to 2026, integrated from multiple sources:
+Following data is used for gold/silver price direction prediction which is comprised of historical daily observations spanning from 2000 to 2026, integrated from multiple sources:
 
 **Target Variables (Gold and Silver)**:
 
@@ -61,7 +61,7 @@ Following data will be used for gold/silver price direction prediction which is 
 
 - The raw data acquired is from year 2000 for all of the metrics except USD Index which is starting from year 2006. All except, CPI, is on daily basis.
 - CPI data is released on monthly basis. So it creates mismatch with other data on daily basis. So the CPI index will be expanded from monthly into daily basis by forward filling. However, calculating daily percentage changes on upsampled data would result in signal sparsity, where the feature contains zero values for approximately 20 out of 21 trading days per month. So the CPI month-on-month (MoM) and year-on-year (YoY) values are computed while data is still in original format before the CPI index will be expanded using forward filling method.
-- After acquiring raw data, all the datasets have been merged to produce a single dataset indexed by date.
+- After acquiring raw data, all the datasets were merged to produce a single dataset indexed by date.
 
 ### Data Quality Checks
 
