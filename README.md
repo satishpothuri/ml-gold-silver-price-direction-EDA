@@ -122,11 +122,11 @@ The regression baseline utilized **Linear Regression** to predict daily percenta
 
 | Metric | Gold Baseline (GC=F) | Silver Baseline (SI=F) |
 | :--- | :---: | :---: |
-| **Mean Absolute Error (MAE)** | 0.007652 | 0.014854 |
-| **Root Mean Squared Error (RMSE)**| 0.010340 | 0.020673 |
-| **R-squared ($R^2$) Score** | -0.006527 | -0.008589 |
+| **Mean Absolute Error (MAE)** | 0.007652 | 0.014869 |
+| **Root Mean Squared Error (RMSE)**| 0.010343 | 0.020673 |
+| **R-squared ($R^2$) Score** | -0.007067 | -0.008600 |
 
-- The baseline Linear Regression model returned an R^2 score of -0.0065 for Gold and -0.008589 for Silver, indicating that the model failed to explain any of the variance in Gold and Silver returns using simple linear lags. This result confirms that macro-economic drivers do not impact these prices in a strictly linear fashion. While this confirms the difficulty of price-point forecasting, it serves as a critical justification for the next phase of the project: transitioning to Logistic Regression for directional classification and exploring Non-linear Ensemble methods to extract price direction signals from the data.
+- The baseline Linear Regression model returned an R^2 score of -0.0070 for Gold and -0.0086 for Silver, indicating that the model failed to explain any of the variance in Gold and Silver returns using simple linear lags. This result confirms that macro-economic drivers do not impact these prices in a strictly linear fashion. While this confirms the difficulty of price-point forecasting, it serves as a critical justification for the next phase of the project: transitioning to Logistic Regression for directional classification and exploring Non-linear Ensemble methods to extract price direction signals from the data.
 - Silver's RMSE is roughly double that of Gold's. This mathematically supports the EDA observation that Silver is a more volatile asset.
 
 
@@ -135,13 +135,13 @@ The classification baseline utilized **Logistic Regression** to predict market d
 
 | Metric | Gold Directional | Silver Directional |
 | :--- | :---: | :---: |
-| **Overall Accuracy** | 47.82% | 47.52% |
-| **Precision (Class 1 - Up)** | 57.00% | 53.00% |
-| **Recall (Class 1 - Up)** | 22.00% | 08.00% |
-| **Recall (Class 0 - Down)** | 80.00% | 92.00% |
-| **F1-Score (Macro Avg)** | 0.45 | 0.38 |
+| **Overall Accuracy** | 46.81% | 46.61% |
+| **Precision (Class 1 - Up)** | 54.00% | 50.00% |
+| **Recall (Class 1 - Up)** | 23.00% | 09.00% |
+| **Recall (Class 0 - Down)** | 77.00% | 89.00% |
+| **F1-Score (Macro Avg)** | 0.44 | 0.38 |
 
-- The baseline directional model achieved an accuracy of 47.82% for Gold and 47.52% for Silver, slightly below the random-chance threshold. Detailed analysis of the classification report reveals a strong bias toward predicting downward movement (80% recall for Class 0) while failing to capture the upward movements.
+- The baseline directional model achieved an accuracy of 46.81% for Gold and 46.61% for Silver, slightly below the random-chance threshold. Detailed analysis of the classification report reveals a strong bias toward predicting downward movement (80% recall for Class 0) while failing to capture the upward movements.
 - These results reinforce the conclusion that simple linear classification is insufficient for this dataset, justifying the move to Rolling/Trend features and Non-linear ensemble models in the next phase to improve the balance between precision and recall.
 
 ### Next Actions
